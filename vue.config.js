@@ -63,10 +63,10 @@ module.exports = {
 
         config.resolve.alias
             .set('@', resolve('src'))
-            .set('_lib', resolve('src/common'))
-            .set('_components', resolve('src/components'))
-            .set('_img', resolve('src/images'))
-            .set('_ser', resolve('src/services'))
+            .set('lib', resolve('src/common'))
+            .set('components', resolve('src/components'))
+            .set('img', resolve('src/images'))
+            .set('ser', resolve('src/services'))
 
         // config.plugin('define')
         //     .tap(args => {

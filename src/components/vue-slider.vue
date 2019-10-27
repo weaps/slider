@@ -10,7 +10,7 @@
         <template>
           <div class="item" :key="active">
             <a href="javascript:;" title>
-              <img :src="carousel[active].imgUrl || carousel[active]" alt>
+              <img :src="carousel[active] && carousel[active].imgUrl || carousel[active]" alt />
               <!-- {{carousel[active].image}} -->
             </a>
           </div>
@@ -62,26 +62,29 @@ export default {
       return this.carousel.length;
     }
   },
-  created() {
-    //创建实例之后获取
-    var images = [];
-    for (var i = 0; i < this.imgLen; i++) {
-      //预加载图片
-      images[i] = new Image();
-      images[i].src = this.carousel[i].imgURl;
-    }
-    if (
-      this.carousel === undefined ||
-      Object.prototype.toString.call(this.carousel) !== "[object Array]"
-    ) {
-      window.console.error("请正确设置您的轮播内容");
-    } else if (this.imgLen < 1) {
-      window.console.warn("轮播图少于一张，无法轮播");
-    } else {
-      this.carouselAnimate(); //开始轮播
-    }
+  mounted() {
+    this.init()
   },
   methods: {
+    init() {
+      //创建实例之后获取
+      var images = [];
+      for (var i = 0; i < this.imgLen; i++) {
+        //预加载图片
+        images[i] = new Image();
+        images[i].src = this.carousel[i] && this.carousel[i].imgURl;
+      }
+      if (
+        this.carousel === undefined ||
+        Object.prototype.toString.call(this.carousel) !== "[object Array]"
+      ) {
+        window.console.error("请正确设置您的轮播内容");
+      } else if (this.imgLen < 1) {
+        window.console.warn("轮播图少于一张，无法轮播");
+      } else {
+        this.carouselAnimate(); //开始轮播
+      }
+    },
     carouselAnimate() {
       //轮播动画
       if (!this.isCarousel) {
@@ -113,6 +116,7 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 .carousel:hover .carousel-control.left {
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
@@ -120,6 +124,7 @@ export default {
   -o-transform: translateX(100%);
   transform: translateX(100%);
 }
+
 .carousel:hover .carousel-control.right {
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
@@ -127,23 +132,26 @@ export default {
   -o-transform: translateX(-100%);
   transform: translateX(-100%);
 }
+
 .carousel-inner {
   position: relative;
   overflow: hidden;
   width: 100%;
   font-size: 0;
 }
+
 .carousel-inner > .item {
   position: relative;
   -webkit-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img {
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
   width: 100%;
   height: auto;
 }
+
 .carousel-indicators {
   position: absolute;
   bottom: 10px;
@@ -154,6 +162,7 @@ export default {
   transform: translateX(-50%);
   -ms-transform: translateX(-50%);
 }
+
 .carousel-indicators li {
   display: inline-block;
   width: 8px;
@@ -176,9 +185,11 @@ export default {
   -khtml-user-select: none;
   user-select: none;
 }
+
 .carousel-indicators li.active {
   background-color: rgba(255, 255, 255, 0.9);
 }
+
 .carousel-control {
   position: absolute;
   top: 50%;
@@ -195,23 +206,27 @@ export default {
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
+
 .carousel-control .iconfont {
   font-size: 50px;
 }
+
 .carousel-control.left {
   left: -80px;
 }
+
 .carousel-control.right {
   right: -80px;
 }
-.carousel-control:hover,
-.carousel-control:focus {
+
+.carousel-control:hover, .carousel-control:focus {
   outline: 0;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   text-decoration: none;
   background: rgba(0, 0, 0, 0.6);
 }
+
 .carousel-animate-enter {
   opacity: 0;
   -webkit-transform: scale(0.8, 0.8);
@@ -220,18 +235,20 @@ export default {
   -o-transform: scale(0.8, 0.8);
   transform: scale(0.8, 0.8);
 }
+
 .carousel-animate-leave {
   position: absolute !important;
   top: 0;
   width: 100%;
 }
-.carousel-animate-leave-to-left,
-.carousel-animate-leave-to-right {
+
+.carousel-animate-leave-to-left, .carousel-animate-leave-to-right {
   position: absolute !important;
   top: 0;
   width: 100%;
   z-index: 10;
 }
+
 .carousel-animate-leave-to-left {
   -webkit-transform: translateX(-100%) scale(0.8, 0.8);
   -moz-transform: translateX(-100%) scale(0.8, 0.8);
@@ -239,6 +256,7 @@ export default {
   -o-transform: translateX(-100%) scale(0.8, 0.8);
   transform: translateX(-100%) scale(0.8, 0.8);
 }
+
 .carousel-animate-leave-to-right {
   -webkit-transform: translateX(100%) scale(0.8, 0.8);
   -moz-transform: translateX(100%) scale(0.8, 0.8);
